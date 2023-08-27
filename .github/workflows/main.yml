@@ -23,6 +23,9 @@ jobs:
 
   get-secret:
     runs-on: ubuntu-latest
+    # permission can be added at job level or workflow level     
+    permissions: 
+      id-token: write   # This is required for requesting the JWT 
     steps:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v3
