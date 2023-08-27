@@ -1,2 +1,3 @@
 BUILD_ENV="This is PROD environment"
-ROLE=
+ROLE_TO_ASSUME: arn:aws:iam::255945442255:role/test-oidc2
+AWS_REGION="ap-southeast-1"

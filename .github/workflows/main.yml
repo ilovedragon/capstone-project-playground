@@ -23,15 +23,38 @@ jobs:
 
   get-secret:
     runs-on: ubuntu-latest
-    # permission can be added at job level or workflow level     
-    permissions: 
-      id-token: write   # This is required for requesting the JWT 
+    # permission can be added at job level or workflow level
+    permissions:
+        id-token: write   # This is required for requesting the JWT
     steps:
+      - name: Determine Environment and Read Variables
+        id: env_vars
+        run: |
+            # Determine the environment based on the branch name
+            if [[ ${{ github.ref }} == refs/heads/prod ]]; then
+            ENV_FILE="env_var/prod_var"
+            elif [[ ${{ github.ref }} == refs/heads/stage ]]; then
+            ENV_FILE="env_var/stage_var"
+            else
+            ENV_FILE="env_var/dev_var"
+            fi
+
+            # Read the variables from the selected environment file
+            source $ENV_FILE
+
+            # Replace role-to-assume and aws-region using the values from the environment file
+            sed -i "s|role-to-assume:.*|role-to-assume: $ROLE_TO_ASSUME|" $GITHUB_ENV
+            sed -i "s|aws-region=.*|aws-region=$AWS_REGION|" $GITHUB_ENV
+
+            # Export BUILD_ENV as an environment variable
+            echo "BUILD_ENV=$BUILD_ENV" >> $GITHUB_ENV
+        shell: bash
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v3
         with:
-          role-to-assume: arn:aws:iam::255945442255:role/test-oidc2
-          aws-region: ap-southeast-1
+            role-to-assume: ${{ env.role-to-assume }}
+            aws-region: ${{ env.aws-region }}
       - name: aws cli show Secret
         run: |
           aws secretsmanager get-secret-value --secret-id POHLENG-SECRET
