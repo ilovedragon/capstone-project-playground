@@ -27,6 +27,8 @@ jobs:
     permissions:
         id-token: write   # This is required for requesting the JWT
     steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
       - name: Determine Environment and Read Variables
         id: env_vars
         run: |
