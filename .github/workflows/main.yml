@@ -32,18 +32,22 @@ jobs:
         id: set-credentials
         run: |
             if [[ ${{ github.ref }} == 'refs/heads/prod' ]]; then
-            role_to_assume="arn:aws:iam::255945442255:role/test-oidc2"
+              ENV_FILE="env_var/prod"
             aws_region="ap-southeast-1"
             elif [[ ${{ github.ref }} == 'refs/heads/stage' ]]; then
-            role_to_assume="arn:aws:iam::255945442255:role/test-oidc2"
-            aws_region="ap-southeast-1"
+              ENV_FILE="env_var/stage"
             else
-            role_to_assume="arn:aws:iam::255945442255:role/test-oidc2"
-            aws_region="ap-southeast-1"
+              ENV_FILE="env_var/dev"
             fi
+        # Read the variables from the selected environment file
+            source $ENV_FILE
+        # Export BUILD_ENV as an environment variable
+            echo "BUILD_ENV=$BUILD_ENV" 
+            aws_region=$AWS_REGION
+            echo "AWS_REGION=$AWS_REGION" 
+            role_to_assume=$ROLE_TO_ASSUME
+            echo "ROLE_TO_ASSUME=$ROLE_TO_ASSUME" 
 
-            echo "::set-output name=role_to_assume::$role_to_assume"
-            echo "::set-output name=aws_region::$aws_region"
         shell: bash
 
       - name: Configure AWS credentials
