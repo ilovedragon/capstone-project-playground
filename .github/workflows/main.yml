@@ -5,6 +5,7 @@ on:
   push:
     branches: 
         - feature/*
+        - dev
   workflow_dispatch:
 
 jobs:
