@@ -47,6 +47,9 @@ jobs:
             echo "AWS_REGION=$AWS_REGION" 
             role_to_assume=$ROLE_TO_ASSUME
             echo "ROLE_TO_ASSUME=$ROLE_TO_ASSUME" 
+            
+            echo "::set-output name=role_to_assume::$role_to_assume"
+            echo "::set-output name=aws_region::$aws_region"
         shell: bash
 
       - name: Configure AWS credentials
