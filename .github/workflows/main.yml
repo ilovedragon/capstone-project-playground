@@ -32,13 +32,13 @@ jobs:
         id: set-credentials
         run: |
             if [[ ${{ github.ref }} == 'refs/heads/prod' ]]; then
-            role_to_assume="arn:aws:iam::255945442255:role/test-oidc1"
+            role_to_assume="arn:aws:iam::255945442255:role/test-oidc2"
             aws_region="ap-southeast-1"
             elif [[ ${{ github.ref }} == 'refs/heads/stage' ]]; then
             role_to_assume="arn:aws:iam::255945442255:role/test-oidc2"
             aws_region="ap-southeast-1"
             else
-            role_to_assume="arn:aws:iam::255945442255:role/test-oidc"
+            role_to_assume="arn:aws:iam::255945442255:role/test-oidc2"
             aws_region="ap-southeast-1"
             fi
 
