@@ -1,0 +1,35 @@
+name: CICD for Nodejs Application with Docker
+run-name: ${{ github.actor }} is running CICD for Nodejs Application with Docker
+
+on:
+  push:
+    branches: 
+        - feature/*
+  pull_request:
+    branches:
+        - dev
+  workflow_dispatch:
+    inputs:
+        choice:
+          type: choice
+          description: Select the environment
+          options:
+          - feature/*
+          - dev
+          - stage
+          - prod
+
+jobs:
+  build:
+    runs-on: unbuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: print environment
+        run: | 
+        echo "choice is ${{ github.event.inputs.choice }}" / ${{ inputs.choice }}
+
+      - name: your action
+        run: |
+        echo "Now you can continue with your project!"
+
+        
