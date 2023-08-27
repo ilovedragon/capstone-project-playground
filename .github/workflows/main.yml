@@ -1,0 +1,22 @@
+name: CICD for Nodejs Application with Docker
+run-name: ${{ github.actor }} is running CICD for Nodejs Application with Docker
+
+on:
+  push:
+    branches: 
+        - feature/*
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: print environment
+        run: | 
+          echo "The current environment is ${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"
+
+      - name: your action
+        run: |
+          echo "Now you can continue with your project!"
+
