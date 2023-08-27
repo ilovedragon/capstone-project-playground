@@ -9,11 +9,6 @@ on:
     branches:
         - dev
   workflow_dispatch:
-     branches
-          - feature/*
-          - dev
-          - stage
-          - prod
 
 jobs:
   build:
@@ -22,9 +17,9 @@ jobs:
       - uses: actions/checkout@v2
       - name: print environment
         run: | 
-        echo "The current environment is ${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"
+          echo "The current environment is ${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"
 
       - name: your action
         run: |
-        echo "Now you can continue with your project!"
+          echo "Now you can continue with your project!"
 
