@@ -47,9 +47,11 @@ jobs:
             echo "AWS_REGION=$AWS_REGION" 
             role_to_assume=$ROLE_TO_ASSUME
             echo "ROLE_TO_ASSUME=$ROLE_TO_ASSUME" 
-            
-            echo "::set-output name=role_to_assume::$role_to_assume"
-            echo "::set-output name=aws_region::$aws_region"
+
+            #echo "::set-output name=role_to_assume::$role_to_assume"
+            echo "role_to_assume=$role_to_assume" >> $GITHUB_OUTPUT
+            #echo "::set-output name=aws_region::$aws_region"
+            echo "aws_region=$aws_region" >> $GITHUB_OUTPUT
         shell: bash
 
       - name: Configure AWS credentials
