@@ -44,19 +44,17 @@ jobs:
             # Read the variables from the selected environment file
             source $ENV_FILE
 
-            # Replace role-to-assume and aws-region using the values from the environment file
-            sed -i "s|role-to-assume:.*|role-to-assume: $ROLE_TO_ASSUME|" $GITHUB_ENV
-            sed -i "s|aws-region=.*|aws-region=$AWS_REGION|" $GITHUB_ENV
-
             # Export BUILD_ENV as an environment variable
             echo "BUILD_ENV=$BUILD_ENV" >> $GITHUB_ENV
+            echo "AWS_REGION=$AWS_REGION" >> $GITHUB_ENV
+            echo "ROLE_TO_ASSUME=$ROLE_TO_ASSUME" >> $GITHUB_ENV
         shell: bash
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v3
         with:
-            role-to-assume: ${{ env.role-to-assume }}
-            aws-region: ${{ env.aws-region }}
+            aws-region: ${{ steps.env_vars.outputs.AWS_REGION }}
+            role-to-assume: ${{ steps.env_vars.outputs.ROLE_TO_ASSUME }}
       - name: aws cli show Secret
         run: |
           aws secretsmanager get-secret-value --secret-id POHLENG-SECRET
