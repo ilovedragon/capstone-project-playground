@@ -20,44 +20,40 @@ jobs:
       - name: your action
         run: |
           echo "Now you can continue with your project!"
-
+    
   get-secret:
     runs-on: ubuntu-latest
-    # permission can be added at job level or workflow level
-    permissions:
-        id-token: write   # This is required for requesting the JWT
     steps:
-      - name: Check out repository code
-        uses: actions/checkout@v3
-      - name: Determine Environment and Read Variables
-        id: env_vars
+      - name: Determine Environment and Set AWS Credentials
+        id: set-credentials
         run: |
-            # Determine the environment based on the branch name
-            if [[ ${{ github.ref }} == refs/heads/prod ]]; then
-            ENV_FILE="env_var/prod_var"
-            elif [[ ${{ github.ref }} == refs/heads/stage ]]; then
-            ENV_FILE="env_var/stage_var"
+            if [[ ${{ github.ref }} == 'refs/heads/prod' ]]; then
+            role_to_assume="arn:aws:iam::255945442255:role/test-oidc1"
+            aws_region="ap-southeast-1"
+            elif [[ ${{ github.ref }} == 'refs/heads/stage' ]]; then
+            role_to_assume="arn:aws:iam::255945442255:role/test-oidc2"
+            aws_region="ap-southeast-1"
             else
-            ENV_FILE="env_var/dev_var"
+            role_to_assume="arn:aws:iam::255945442255:role/test-oidc"
+            aws_region="ap-southeast-1"
             fi
 
-            # Read the variables from the selected environment file
-            source $ENV_FILE
-
-            # Export BUILD_ENV as an environment variable
-            echo "BUILD_ENV=$BUILD_ENV" >> $GITHUB_ENV
-            echo "AWS_REGION=$AWS_REGION" >> $GITHUB_ENV
-            echo "ROLE_TO_ASSUME=$ROLE_TO_ASSUME" >> $GITHUB_ENV
+            echo "::set-output name=role_to_assume::$role_to_assume"
+            echo "::set-output name=aws_region::$aws_region"
         shell: bash
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v3
+        uses: aws-actions/configure-aws-credentials@v2
         with:
-            aws-region: ap-southeast-1
-            role-to-assume: ${{ steps.env_vars.outputs.ROLE_TO_ASSUME }}
+            role-to-assume: ${{ steps.set-credentials.outputs.role_to_assume }}
+            aws-region: ${{ steps.set-credentials.outputs.aws_region }}
       - name: aws cli show Secret
         run: |
-          aws secretsmanager get-secret-value --secret-id POHLENG-SECRET
+            aws secretsmanager get-secret-value --secret-id POHLENG-SECRET
       - name: aws cli show SSM
         run: |
-          aws ssm get-parameter --name pohleng-parameter
+            aws ssm get-parameter --name pohleng-parameter
+ 
+
+          
+          
