@@ -9,11 +9,7 @@ on:
     branches:
         - dev
   workflow_dispatch:
-    inputs:
-        choice:
-          type: choice
-          description: Select the environment
-          options:
+     branches
           - feature/*
           - dev
           - stage
@@ -26,10 +22,9 @@ jobs:
       - uses: actions/checkout@v2
       - name: print environment
         run: | 
-        echo "choice is ${{ github.event.inputs.choice }}" / ${{ inputs.choice }}
+        echo "The current environment is ${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"
 
       - name: your action
         run: |
         echo "Now you can continue with your project!"
 
-        
