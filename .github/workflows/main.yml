@@ -33,6 +33,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2 
+    - name: Set Secret
+    - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+            role-to-assume: ${{ steps.set-credentials.outputs.role_to_assume }}
+            aws-region: ${{ steps.set-credentials.outputs.aws_region }}
+    - name: aws cli show Secret
+      run: |
+          aws secretsmanager get-secret-value --secret-id POHLENG-SECRET
+    - name: aws cli show SSM
+      run: |
+          aws ssm get-parameter --name pohleng-parameter
+
+
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v3
     - name: aws cli show Secret
