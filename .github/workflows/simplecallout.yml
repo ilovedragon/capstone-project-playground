@@ -6,12 +6,12 @@ on:
   workflow_call:
 
 jobs:
-  get-secret:
+  job-hello-world:
     runs-on: ubuntu-latest
     steps:
-        # Checkout the repo     
-    - uses: actions/checkout@v2
-      name: Echo hello world
-      run: |
+      - uses: actions/checkout@v2  
+      - name: Step - Hello World
+        id: set-credentials
+        run: |
           echo "Hello world !!!"
-          shell: bash
+        shell: bash
