@@ -1,0 +1,29 @@
+# set-secret-workflow.yml
+
+name: Simple Call out
+
+on:
+  workflow_call:
+    inputs:
+    repo-name:
+      required: true
+      type: string
+    ref-name:
+      required: true
+      type: string
+
+jobs:
+  get-secret:
+    runs-on: ubuntu-latest
+    steps:
+        # Checkout the repo     
+    - uses: actions/checkout@v2
+      with:
+        repository: ${{inputs.repo-name}}
+        ref: ${{inputs.ref-name}}
+        
+      name: Echo hello world
+          id: Hello-World
+          run: |
+            echo "Hello world !!!"
+          shell: bash

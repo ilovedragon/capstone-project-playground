@@ -1,0 +1,29 @@
+name: CICD for Nodejs Application with Docker
+run-name: ${{ github.actor }} is running CICD for Nodejs Application with Docker
+
+on:
+  push:
+    branches: 
+        - feature/*
+        - dev
+  workflow_dispatch:
+
+# permission can be added at job level or workflow level     
+permissions: 
+    id-token: write   # This is required for requesting the JWT 
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: print environment
+      run: | 
+        echo "The current environment is ${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"
+
+    - name: your action
+      run: |
+        echo "Now you can continue with your project!"
+    
+    - name: Call out "Simple call out workflow"
+      uses: ./.github/workflows/test.yml
