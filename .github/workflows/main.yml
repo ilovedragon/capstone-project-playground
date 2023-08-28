@@ -25,25 +25,25 @@ jobs:
       run: |
         echo "Now you can continue with your project!"
     
-  call-set-secret-workflow:
-    uses: ./.github/workflows/set-secret-workflow.yml
+  job-get-aws-info-workflow:
+    uses: ./.github/workflows/reusable-get-aws-info-workflow.yml
 
 
   get-secret:
     runs-on: ubuntu-latest
-    needs: call-set-secret-workflow
+    needs: job-get-aws-info-workflow
     steps:
     - name: Debug step
       run: |
-           echo "role to asume is ${{ needs.call-set-secret-workflow.outputs.role_to_assume }}"
-           echo "aws region is ${{ needs.call-set-secret-workflow.outputs.aws_region }} "
+           echo "role to asume is ${{ needs.job-get-aws-info-workflow.outputs.role_to_assume }}"
+           echo "aws region is ${{ needs.job-get-aws-info-workflow.outputs.aws_region }} "
     - uses: actions/checkout@v2 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v3
       with:
       # synxtax is "needs.<reusable>.outputs.<output>""
-          role-to-assume: ${{ needs.call-set-secret-workflow.outputs.role_to_assume }}
-          aws-region: ${{ needs.call-set-secret-workflow.outputs.aws_region }}
+          role-to-assume: ${{ needs.job-get-aws-info-workflow.outputs.role_to_assume }}
+          aws-region: ${{ needs.job-get-aws-info-workflow.outputs.aws_region }}
     - name: aws cli show Secret
       run: |
           aws secretsmanager get-secret-value --secret-id POHLENG-SECRET
