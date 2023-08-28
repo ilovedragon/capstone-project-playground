@@ -8,10 +8,10 @@ on:
     outputs:
       role_to_assume:
         description: "role_to_assume"
-        value: ${{ jobs.get-secret.outputs.role_to_assume }}
+        value: ${{ jobs.job-get-aws-info.outputs.role_to_assume }}
       aws_region:
         description: "aws_region"
-        value: ${{ jobs.get-secret.outputs.aws_region }}
+        value: ${{ jobs.job-get-aws-info.outputs.aws_region }}
 
 jobs:
   job-get-aws-info:
