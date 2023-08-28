@@ -30,7 +30,6 @@ jobs:
     steps:
       - name: call-set-secret-workflow
         uses: ./.github/workflows/set-secret-workflow.yml
-      - uses: actions/checkout@v2
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v3
         with:
