@@ -4,13 +4,6 @@ name: Simple Call out
 
 on:
   workflow_call:
-    inputs:
-    repo-name:
-      required: true
-      type: string
-    ref-name:
-      required: true
-      type: string
 
 jobs:
   get-secret:
