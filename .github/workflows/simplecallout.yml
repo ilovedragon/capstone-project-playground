@@ -11,10 +11,6 @@ jobs:
     steps:
         # Checkout the repo     
     - uses: actions/checkout@v2
-      with:
-        repository: ${{inputs.repo-name}}
-        ref: ${{inputs.ref-name}}
-        
       name: Echo hello world
       run: |
           echo "Hello world !!!"
