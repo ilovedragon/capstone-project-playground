@@ -37,8 +37,9 @@ jobs:
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v3
       with:
-          role-to-assume: ${{ needs.call-set-secret-workflow.set-credentials.outputs.role_to_assume }}
-          aws-region: ${{ needs.call-set-secret-workflow.set-credentials.outputs.aws_region }}
+      # synxtax is "needs.<reusable>.outputs.<output>""
+          role-to-assume: ${{ needs.call-set-secret-workflow.outputs.role_to_assume }}
+          aws-region: ${{ needs.call-set-secret-workflow.outputs.aws_region }}
     - name: aws cli show Secret
       run: |
           aws secretsmanager get-secret-value --secret-id POHLENG-SECRET
