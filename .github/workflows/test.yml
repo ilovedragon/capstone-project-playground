@@ -16,8 +16,12 @@ permissions:
     id-token: write   # This is required for requesting the JWT 
 
 jobs:
+  Call_out_Simple_call_out_workflow:
+      uses: ilovedragon/capstone-project-playground/.github/workflows/test.yml@feature/workflow_callout-by-pohleng
+
   build:
     runs-on: ubuntu-latest
+    steps:
     - uses: actions/checkout@v2
     - name: print environment
       run: | 
@@ -27,5 +31,3 @@ jobs:
       run: |
         echo "Now you can continue with your project!"
     
-    - name: Call out "Simple call out workflow"
-      uses: ilovedragon/capstone-project-playground/.github/workflows/test.yml@feature/workflow_callout-by-pohleng
