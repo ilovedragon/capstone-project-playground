@@ -23,7 +23,6 @@ jobs:
         ref: ${{inputs.ref-name}}
         
       name: Echo hello world
-          id: Hello-World
           run: |
             echo "Hello world !!!"
           shell: bash
