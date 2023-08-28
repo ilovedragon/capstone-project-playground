@@ -1,5 +1,5 @@
-name: CICD for Nodejs Application with Docker
-run-name: ${{ github.actor }} is running CICD for Nodejs Application with Docker
+name: This a only for my own test
+run-name: ${{ github.actor }} is running a test workflow to try out reusable workflow
 
 on:
   push:
@@ -26,4 +26,4 @@ jobs:
         echo "Now you can continue with your project!"
     
     - name: Call out "Simple call out workflow"
-      uses: ./.github/workflows/test.yml
+      uses: ilovedragon/capstone-project-playground/.github/workflows/test.yml@feature/workflow_callout-by-pohleng
