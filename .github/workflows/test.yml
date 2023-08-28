@@ -17,7 +17,7 @@ permissions:
 
 jobs:
   Call_out_Simple_call_out_workflow:
-      uses: ilovedragon/capstone-project-playground/.github/workflows/test.yml@feature/workflow_callout-by-pohleng
+      uses: ./.github/workflows/test.yml
 
   build:
     runs-on: ubuntu-latest
