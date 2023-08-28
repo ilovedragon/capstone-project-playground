@@ -26,10 +26,8 @@ jobs:
         echo "Now you can continue with your project!"
     
   call-set-secret-workflow:
-    - uses: ./.github/workflows/set-secret-workflow.yml
-      with:
-        repo-name: ${{ github.GITHUB_REPOSITORY  }}
-        ref-name: ${{ github.GITHUB_REF_NAME  }}
+    uses: ./.github/workflows/set-secret-workflow.yml
+
 
   get-secret:
     runs-on: ubuntu-latest
