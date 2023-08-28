@@ -30,7 +30,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2 
     - name: call-set-secret-workflow
-      uses: ilovedragon/capstone-project-playground/.github/workflows/set-secret-workflow.yml@feature/workflow_callout-by-pohleng
+      uses: ./.github/workflows/set-secret-workflow.yml
       with:
         repo-name: ${{ github.GITHUB_REPOSITORY  }}
         ref-name: ${{ github.GITHUB_REF_NAME  }}
