@@ -28,7 +28,11 @@ jobs:
   get-secret:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+    # Checkout the repo     
+      - uses: actions/checkout@v3       
+          with:           
+          # Repository name with owner. For example, actions/checkout           
+          Default: ${{ github.repository }}
       - name: call-set-secret-workflow
         uses: ./.github/workflows/set-secret-workflow.yml
       - name: Configure AWS credentials
