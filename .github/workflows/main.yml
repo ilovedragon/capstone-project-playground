@@ -39,7 +39,7 @@ jobs:
            echo "role to asume is ${{ needs.job-get-aws-info-workflow.outputs.role_to_assume }}"
            echo "aws region is ${{ needs.job-get-aws-info-workflow.outputs.aws_region }} "
     - uses: actions/checkout@v2 
-    - name: Configure AWS credentials
+    - name: Configure AWS Access
       uses: aws-actions/configure-aws-credentials@v3
       with:
       # synxtax is "needs.<reusable>.outputs.<output>""
