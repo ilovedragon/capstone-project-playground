@@ -26,10 +26,9 @@ jobs:
           echo "Now you can continue with your project!"
     
   get-secret:
-    
+    runs-on: ubuntu-latest
     steps:
-      runs-on: ubuntu-latest
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2 
       - name: call-set-secret-workflow
         uses: ilovedragon/capstone-project-playground/.github/workflows/set-secret-workflow.yml@feature/workflow_callout-by-pohleng
       - name: Configure AWS credentials
