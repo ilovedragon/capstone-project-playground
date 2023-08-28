@@ -31,6 +31,7 @@ jobs:
 
   get-secret:
     runs-on: ubuntu-latest
+    #make sure to run after the job of get aws info
     needs: job-get-aws-info-workflow
     steps:
     - name: Debug step

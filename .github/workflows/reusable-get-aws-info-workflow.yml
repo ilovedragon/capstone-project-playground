@@ -1,4 +1,4 @@
-# set-secret-workflow.yml
+# reusable-get-aws-info-workflow.yml
 
 name: Get AWS info
 
