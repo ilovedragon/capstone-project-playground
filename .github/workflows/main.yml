@@ -34,9 +34,9 @@ jobs:
     needs: call-set-secret-workflow
     steps:
     - name: Debug step
-      run: 
-      echo "role to asume is ${{ needs.call-set-secret-workflow.outputs.role_to_assume }}"
-      echo "aws region is ${{ needs.call-set-secret-workflow.outputs.aws_region }} "
+      run: |
+           echo "role to asume is ${{ needs.call-set-secret-workflow.outputs.role_to_assume }}"
+           echo "aws region is ${{ needs.call-set-secret-workflow.outputs.aws_region }} "
     - uses: actions/checkout@v2 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v3
