@@ -28,6 +28,7 @@ jobs:
   get-secret:
     runs-on: ubuntu-latest
     steps:
+      – uses: actions/checkout@v2
       - name: call-set-secret-workflow
         uses: ./.github/workflows/set-secret-workflow.yml
       - name: Configure AWS credentials
