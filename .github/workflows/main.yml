@@ -6,8 +6,7 @@ run-name: ${{ github.actor }} is running CICD for Nodejs Application with Docker
 on:
   push:
     branches: 
-      - feature/*
-      - dev
+      - '**'
   pull_request:
     branches-ignore:
       - stage
