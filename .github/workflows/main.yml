@@ -29,27 +29,27 @@ jobs:
       run: |
         echo "Now you can continue with your project!"
 
-  # Define the "job-get-aws-info-workflow" job, which uses a reusable workflow defined in another file. 
-  job-get-aws-info-workflow:
-    uses: ./.github/workflows/reusable-get-aws-info-workflow.yml
+  # Define the "get-aws-info" job, which uses a reusable workflow defined in another file. 
+  get-aws-info:
+    uses: ./.github/workflows/get-aws-info.yml
 
   # Define the "get-secret" job, which runs on the latest version of Ubuntu.
   get-secret:
     runs-on: ubuntu-latest
-    # Make sure to run after the "job-get-aws-info-workflow" job.
-    needs: job-get-aws-info-workflow
+    # Make sure to run after the "get-aws-info" job.
+    needs: get-aws-info
     steps:
     - name: Debug step
       run: |
-           echo "role to asume is ${{ needs.job-get-aws-info-workflow.outputs.role_to_assume }}"
-           echo "aws region is ${{ needs.job-get-aws-info-workflow.outputs.aws_region }} "
+           echo "role to asume is ${{ needs.get-aws-info.outputs.role_to_assume }}"
+           echo "aws region is ${{ needs.get-aws-info.outputs.aws_region }} "
     - uses: actions/checkout@v2 
     - name: Configure AWS Access
       uses: aws-actions/configure-aws-credentials@v3
       with:
       # Syntax for accessing outputs from a reusable workflow is "needs.<reusable>.outputs.<output>".
-          role-to-assume: ${{ needs.job-get-aws-info-workflow.outputs.role_to_assume }}
-          aws-region: ${{ needs.job-get-aws-info-workflow.outputs.aws_region }}
+          role-to-assume: ${{ needs.get-aws-info.outputs.role_to_assume }}
+          aws-region: ${{ needs.get-aws-info.outputs.aws_region }}
     - name: aws cli show Secret
       run: |
           aws secretsmanager get-secret-value --secret-id POHLENG-SECRET

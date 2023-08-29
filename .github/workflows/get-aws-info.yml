@@ -1,4 +1,4 @@
-# reusable-get-aws-info-workflow.yml
+# get-aws-info.yml
 
 # This workflow is named "Get AWS info" and it's triggered when it's called by another workflow.
 name: Get AWS info
