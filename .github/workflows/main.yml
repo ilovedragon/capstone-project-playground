@@ -1,0 +1,68 @@
+# Define the name and description for this workflow.
+name: CICD for Nodejs Application with Docker
+run-name: ${{ github.actor }} is running CICD for Nodejs Application with Docker
+
+# Define the trigger conditions for this workflow.
+on:
+  push:
+    branches: 
+      - '**'
+  pull_request:
+    branches-ignore:
+      - stage
+      - prod
+  workflow_dispatch:
+
+# Define permissions for this workflow, which can be added at either the job or workflow level.
+permissions: 
+    id-token: write   # This is required for requesting the JWT 
+
+# Define the jobs that will be executed as part of this workflow.
+jobs:
+  build:
+    # Define the "build" job, which runs on the latest version of Ubuntu.
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: print environment
+      run: | 
+        echo "The current environment is ${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"
+
+    - name: your action
+      run: |
+        echo "Now you can continue with your project!"
+
+  # Define the "get-aws-info" job, which uses a reusable workflow defined in another file. 
+  get-aws-info:
+    uses: ./.github/workflows/get-aws-info.yml
+
+  # Define the "get-secret" job, which runs on the latest version of Ubuntu.
+  get-secret:
+    runs-on: ubuntu-latest
+    # Make sure to run after the "get-aws-info" job.
+    needs: get-aws-info
+    steps:
+    - name: Debug step
+      run: |
+           echo "role to asume is ${{ needs.get-aws-info.outputs.role_to_assume }}"
+           echo "aws region is ${{ needs.get-aws-info.outputs.aws_region }} "
+    - uses: actions/checkout@v2 
+    - name: Configure AWS Access
+      uses: aws-actions/configure-aws-credentials@v3
+      with:
+      # Syntax for accessing outputs from a reusable workflow is "needs.<reusable>.outputs.<output>".
+          role-to-assume: ${{ needs.get-aws-info.outputs.role_to_assume }}
+          aws-region: ${{ needs.get-aws-info.outputs.aws_region }}
+    - name: aws cli show Secret
+      run: |
+          aws secretsmanager get-secret-value --secret-id POHLENG-SECRET
+    - name: aws cli show SSM
+      run: |
+          aws ssm get-parameter --name pohleng-parameter
+
+
+
+ 
+
+          
+          
