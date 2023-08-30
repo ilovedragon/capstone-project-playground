@@ -30,7 +30,7 @@ jobs:
           node-version: 18
       - run: npm install
       - name: Run test,js
-        run: npm test.js
+        run: node test.js
 
       - name: print environment
         run: | 
