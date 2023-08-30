@@ -1,5 +1,13 @@
 name: Workflow for Node using Snyk
 on: push
+
+permissions:
+    actions: read
+    contents: read
+    id-token: write
+    security-events: write
+
+
 jobs:
   SNYK_scan_1:
     runs-on: ubuntu-latest
