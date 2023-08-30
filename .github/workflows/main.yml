@@ -23,21 +23,23 @@ jobs:
     # Define the "build" job, which runs on the latest version of Ubuntu.
     runs-on: ubuntu-latest    
     steps: 
-    - name: Check out repository code
-      uses: actions/checkout@v3
-    - name: Run installation of dependencies commands
-      run: npm ci
-    - name: Run test,js
-      run: npm test.js
+      - name: Checkout
+        uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: npm install
+      - name: Run test,js
+        run: npm test.js
 
-    - name: print environment
-      run: | 
-        echo "The current environment is ${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"
-        
+      - name: print environment
+        run: | 
+          echo "The current environment is ${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"
+          
 
-    - name: your action
-      run: |
-        echo "Now you can continue with your project!"
+      - name: your action
+        run: |
+          echo "Now you can continue with your project!"
 
 
   # Define the "get-aws-info" job, which uses a reusable workflow defined in another file. 
