@@ -22,7 +22,10 @@ on:
   push:  
 
 permissions:
-  contents: read
+    actions: read
+    contents: read
+    id-token: write
+    security-events: write
 
 jobs:
   snyk:
