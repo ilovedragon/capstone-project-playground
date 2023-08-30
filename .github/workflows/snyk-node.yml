@@ -17,6 +17,7 @@ jobs:
         uses: snyk/actions/node@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      - run: snyk code test --sarif > snyk-code.sarif # || true
           
   SNYK_scan_2-upload_scan_results_to_Github_code_scanning:
         runs-on: ubuntu-latest
