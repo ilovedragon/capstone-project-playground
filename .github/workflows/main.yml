@@ -21,7 +21,8 @@ permissions:
 jobs:
   build:
     # Define the "build" job, which runs on the latest version of Ubuntu.
-    runs-on: ubuntu-latest    
+    runs-on: ubuntu-latest
+    needs: Snyk-Security    
     steps: 
       - name: Checkout
         uses: actions/checkout@v3
@@ -57,7 +58,7 @@ jobs:
   get-secret:
     runs-on: ubuntu-latest
     # Make sure to run after the "get-aws-info" job.
-    needs: [get-aws-info,Snyk-Security]
+    needs: Snyk-Security
     steps:
     - name: Debug step
       run: |
