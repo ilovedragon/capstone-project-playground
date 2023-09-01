@@ -19,7 +19,7 @@
 name: Snyk Security
 
 on:
-  push:  
+  workflow_call: 
 
 permissions:
     contents: read
