@@ -16,25 +16,44 @@ on:
 # Define permissions for this workflow, which can be added at either the job or workflow level.
 permissions: 
     id-token: write   # This is required for requesting the JWT 
+    contents: read # for actions/checkout to fetch code
+    security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+    actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
 
 # Define the jobs that will be executed as part of this workflow.
 jobs:
   build:
     # Define the "build" job, which runs on the latest version of Ubuntu.
     runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: print environment
-      run: | 
-        echo "The current environment is ${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"
+    needs: [get-secret,Snyk-Security]    
+    steps: 
+      - name: Checkout
+        uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: npm install
+      - name: Run test,js
+        run: node test.js
 
-    - name: your action
-      run: |
-        echo "Now you can continue with your project!"
+      - name: print environment
+        run: | 
+          echo "The current environment is ${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"
+          
+
+      - name: your action
+        run: |
+          echo "Now you can continue with your project!"
+
 
   # Define the "get-aws-info" job, which uses a reusable workflow defined in another file. 
   get-aws-info:
     uses: ./.github/workflows/get-aws-info.yml
+
+  Snyk-Security:
+    uses: ./.github/workflows/snyk-security.yml
+    secrets: inherit
+
 
   # Define the "get-secret" job, which runs on the latest version of Ubuntu.
   get-secret:
@@ -46,7 +65,7 @@ jobs:
       run: |
            echo "role to asume is ${{ needs.get-aws-info.outputs.role_to_assume }}"
            echo "aws region is ${{ needs.get-aws-info.outputs.aws_region }} "
-    - uses: actions/checkout@v2 
+    - uses: actions/checkout@v3 
     - name: Configure AWS Access
       uses: aws-actions/configure-aws-credentials@v3
       with:
