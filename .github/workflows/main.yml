@@ -46,11 +46,14 @@ jobs:
   get-aws-info:
     uses: ./.github/workflows/get-aws-info.yml
 
+  Snyk-Security:
+    uses: ./.github/workflows/snyk-security.yml
+
   # Define the "get-secret" job, which runs on the latest version of Ubuntu.
   get-secret:
     runs-on: ubuntu-latest
     # Make sure to run after the "get-aws-info" job.
-    needs: get-aws-info
+    needs: [get-aws-info, Snyk-Security]
     steps:
     - name: Debug step
       run: |
