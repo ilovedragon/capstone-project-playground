@@ -50,7 +50,7 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
       - name: Snyk Auth
-        run: snyk auth SNYK_TOKEN #${{ secrets.SNYK_TOKEN }}
+        run: snyk auth $SNYK_TOKEN #${{ secrets.SNYK_TOKEN }}
         
           # Runs Snyk Code (SAST) analysis and uploads result into GitHub.
         # Use || true to not fail the pipeline
