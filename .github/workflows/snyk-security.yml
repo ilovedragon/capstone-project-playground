@@ -19,11 +19,11 @@
 name: Snyk Security
 
 on:
-  workflow_call: 
-
-permissions:
-    contents: read
-
+  workflow_call:
+    secrets:
+      SNYK_TOKEN:
+        description: 'A SNYK token passed from the caller workflow'
+        required: true
 
 jobs:
   snyk:
@@ -48,12 +48,10 @@ jobs:
 
         env:
           # This is where you will need to introduce the Snyk API token created with your Snyk account
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-      - name: install dependencies
-        run: npm install
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}      
 
-      #- name: Snyk Auth
-      #  run: snyk auth --debug 
+      - name: Snyk Auth
+        run: snyk auth --debug ${{ secrets.SNYK_TOKEN }} 
       #  env:
       #    SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}       
         

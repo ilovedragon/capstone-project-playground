@@ -52,6 +52,7 @@ jobs:
 
   Snyk-Security:
     uses: ./.github/workflows/snyk-security.yml
+    secrets: inherit
 
 
   # Define the "get-secret" job, which runs on the latest version of Ubuntu.
