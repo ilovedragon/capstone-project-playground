@@ -64,7 +64,7 @@ jobs:
       run: |
            echo "role to asume is ${{ needs.get-aws-info.outputs.role_to_assume }}"
            echo "aws region is ${{ needs.get-aws-info.outputs.aws_region }} "
-    - uses: actions/checkout@v2 
+    - uses: actions/checkout@v3 
     - name: Configure AWS Access
       uses: aws-actions/configure-aws-credentials@v3
       with:
