@@ -25,7 +25,6 @@ on:
         description: 'A SNYK token passed from the caller workflow'
         required: true
 
-
 jobs:
   snyk:
     permissions:
@@ -39,21 +38,22 @@ jobs:
         # Snyk can be used to break the build when it detects security issues.
         # In this case we want to upload the SAST issues to GitHub Code Scanning
         #uses: snyk/actions/setup@806182742461562b67788a64410098c9d9b96adb
-        uses: snyk/actions/node@master
-        env:
-          # This is where you will need to introduce the Snyk API token created with your Snyk account
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        uses: snyk/actions/setup@master
 
         # For Snyk Open Source you must first set up the development environment for your application's dependencies
         # For example for Node
-        #- uses: actions/setup-node@v3
+       #- uses: actions/setup-node@v3
         #  with:
         #    node-version: 16
-      - uses: actions/setup-node@v3
-      - run: npm ci        
+
+        env:
+          # This is where you will need to introduce the Snyk API token created with your Snyk account
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}      
 
       - name: Snyk Auth
-        run: snyk auth ${{ secrets.SNYK_TOKEN }}
+        run: snyk auth --debug ${{ secrets.SNYK_TOKEN }} 
+      #  env:
+      #    SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}       
         
         # Runs Snyk Code (SAST) analysis and uploads result into GitHub.
         # Use || true to not fail the pipeline
@@ -62,7 +62,9 @@ jobs:
 
         # Runs Snyk Open Source (SCA) analysis and uploads result to Snyk.
       - name: Snyk Open Source monitor
-        run: snyk monitor --all-projects
+        run: snyk monitor --all-projects --debug
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
         # Runs Snyk Infrastructure as Code (IaC) analysis and uploads result to Snyk.
         # Use || true to not fail the pipeline.
