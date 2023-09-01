@@ -57,7 +57,7 @@ jobs:
   get-secret:
     runs-on: ubuntu-latest
     # Make sure to run after the "get-aws-info" job.
-    needs: [get-aws-info, Snyk-Security]
+    needs: [get-aws-info,Snyk-Security]
     steps:
     - name: Debug step
       run: |
