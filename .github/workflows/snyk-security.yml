@@ -64,7 +64,7 @@ jobs:
 
         # Runs Snyk Open Source (SCA) analysis and uploads result to Snyk.
       - name: Snyk Open Source monitor
-        run: snyk monitor --all-projects
+        run: snyk monitor --all-projects --debug
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
