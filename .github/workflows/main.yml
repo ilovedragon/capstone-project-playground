@@ -79,6 +79,19 @@ jobs:
       run: |
           aws ssm get-parameter --name pohleng-parameter
 
+  merge:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3        
+      - name: Merge dev into stage
+        run: |
+          git checkout stage
+          git merge dev --no-ff --no-edit
+          git push origin stage
+        working-directory: ./
+
 
 
 

@@ -1,14 +1,19 @@
 # stage.yml
 
-# This workflow is named "Deploy to Stage resourcey" and it's triggered when it's called by another workflow.
-name: Deploy to Stage resource
+# Define the name and description for this workflow.
+name: CICD for Nodejs Application with Docker to Sage
+run-name: ${{ github.actor }} is running CICD for Nodejs Application with Docker to Stage
 
+# Define the trigger conditions for this workflow.
 on:
-  workflow_call:
+  push:
+    branches:
+        stage
+  workflow_dispatch:   
     
 # Define the jobs that will be executed as part of this workflow.
 jobs:
-    deploy-stagee:
+    deploy-to-stage:
       # Define the "build" job, which runs on the latest version of Ubuntu.
       runs-on: ubuntu-latest
       steps: 
