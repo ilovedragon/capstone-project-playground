@@ -5,10 +5,11 @@ run-name: ${{ github.actor }} is running CICD for Nodejs Application with Docker
 # Define the trigger conditions for this workflow.
 on:
   push:
-    branches: 
-      - '**'
-  pull_request:
     branches-ignore:
+      - stage
+      - prod
+  pull_request:
+    branches:
       - stage
       - prod
   workflow_dispatch:
@@ -45,6 +46,11 @@ jobs:
         run: |
           echo "Now you can continue with your project!"
 
+  # Define the "deploy-to-stage" job, which uses a reusable workflow defined in another file. 
+  deploy-to-stage:
+    uses: ./.github/workflows/stage.yml
+    needs: build
+
 
   # Define the "get-aws-info" job, which uses a reusable workflow defined in another file. 
   get-aws-info:
@@ -80,31 +86,7 @@ jobs:
           aws ssm get-parameter --name pohleng-parameter
 
 
-# Define the trigger conditions for this workflow.
-on:
-  workflow_dispatch:
 
-    build:
-      # Define the "build" job, which runs on the latest version of Ubuntu.
-      runs-on: ubuntu-latest
-      steps: 
-        - name: Checkout
-          uses: actions/checkout@v3
-        - uses: actions/setup-node@v3
-          with:
-            node-version: 18
-        - run: npm install
-        - name: Run test,js
-          run: node test.js
-  
-        - name: print environment
-          run: | 
-            echo "The current environment is ${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"
-            
-  
-        - name: your action
-          run: |
-            echo "Now you can continue with your project!"
 
 
  
