@@ -40,12 +40,6 @@ jobs:
         run: |
           echo "Now you can continue with your project!"
 
-  # Define the "deploy-to-stage" job, which uses a reusable workflow defined in another file. 
-  deploy-to-stage:
-    uses: ./.github/workflows/stage.yml
-    needs: build
-
-
   # Define the "get-aws-info" job, which uses a reusable workflow defined in another file. 
   get-aws-info:
     uses: ./.github/workflows/get-aws-info.yml
