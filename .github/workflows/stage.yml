@@ -1,0 +1,31 @@
+# stage.yml
+
+# This workflow is named "Deploy to Stage resourcey" and it's triggered when it's called by another workflow.
+name: Deploy to Stage resource
+
+on:
+  workflow_call:
+    
+# Define the jobs that will be executed as part of this workflow.
+jobs:
+    deploy-stagee:
+      # Define the "build" job, which runs on the latest version of Ubuntu.
+      runs-on: ubuntu-latest
+      steps: 
+        - name: Checkout
+          uses: actions/checkout@v3
+        - uses: actions/setup-node@v3
+          with:
+            node-version: 18
+        - run: npm install
+        - name: Run test,js
+          run: node test.js
+  
+        - name: print environment
+          run: | 
+            echo "The current environment is ${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"
+            
+  
+        - name: your action
+          run: |
+            echo "Now you can continue with your project!"
