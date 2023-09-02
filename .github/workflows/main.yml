@@ -80,6 +80,32 @@ jobs:
           aws ssm get-parameter --name pohleng-parameter
 
 
+# Define the trigger conditions for this workflow.
+on:
+  workflow_dispatch:
+
+    build:
+      # Define the "build" job, which runs on the latest version of Ubuntu.
+      runs-on: ubuntu-latest
+      steps: 
+        - name: Checkout
+          uses: actions/checkout@v3
+        - uses: actions/setup-node@v3
+          with:
+            node-version: 18
+        - run: npm install
+        - name: Run test,js
+          run: node test.js
+  
+        - name: print environment
+          run: | 
+            echo "The current environment is ${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"
+            
+  
+        - name: your action
+          run: |
+            echo "Now you can continue with your project!"
+
 
  
 
